@@ -30,7 +30,7 @@ def main(path):
                 if(layer[pixelIdx] == '2'):
                     continue
                 else:
-                    output = output + ('#' if layer[pixelIdx]=='0' else ' ')
+                    output = output + (' ' if layer[pixelIdx]=='0' else '#')
                     break
         print(output)
         

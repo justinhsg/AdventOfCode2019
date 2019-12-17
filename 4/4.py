@@ -1,4 +1,4 @@
-#To give combinatorial solution
+#Combinatorial solution is possible, but this brute forces the solution easily enough
 def main(path):
     with open(path) as infile:
         line = infile.read().split('\n')

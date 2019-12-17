@@ -64,7 +64,6 @@ def main(path):
             elif(opcode == 3):
                 d = cmd[curPC+1]
                 if(len(streams[run]) == 0):
-
                     run = (run+1)%5
                 else:
                     cmd[d] = streams[run].popleft()
@@ -128,7 +127,7 @@ def main(path):
             maxSeq = seq
         seq = nextPermutation(seq)
         
-    print(maxPhase, maxSeq)
+    print(maxPhase)
     
     
     seq = [5,6,7,8,9]
@@ -141,4 +140,4 @@ def main(path):
             maxSeq = seq
         seq = nextPermutation(seq)
         
-    print(maxPhase, maxSeq)
+    print(maxPhase)

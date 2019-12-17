@@ -28,13 +28,6 @@ def main(path):
             return relbase+d
     
     def run(input):
-        #streams = [deque([seq[i]]) for i in range(5)]
-        #streams[0].append(0)
-        #cmds = [commands[:] for _ in range(5)]
-        #status = [False for _ in range(5)]
-        #pcs = [0 for _ in range(5)]
-        #run = 0
-        #maxPhase = 0
         curPC = 0
         cmd = commands[:]
         output = deque()
@@ -147,5 +140,5 @@ def main(path):
             elif(opcode == 99):
                 break   
         return output
-    print(run(deque([1])))
-    print(run(deque([2])))
+    print(run(deque([1]))[0])
+    print(run(deque([2]))[0])

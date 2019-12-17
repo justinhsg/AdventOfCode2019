@@ -42,13 +42,10 @@ def main(path):
     for i in range(0, len(points1)-1):
         
         ((s1x, s1y), (e1x, e1y)) = sortPoints(points1[i], points1[i+1])
-        #(s1x,s1y) = points1[i]
-        #(e1x,e1y) = points1[i+1]
         w2steps = 0
         for j in range(0, len(points2)-1):
             
             ((s2x, s2y), (e2x, e2y)) = sortPoints(points2[j], points2[j+1])
-            #print("Comparing ({}, {}) -> ({}, {}) and ({}, {}) -> ({}, {})".format(s1x, s1y, e1x, e1y, s2x, s2y, e2x, e2y))
             foundIntersection = False
             if(s1x == e1x):
                 if(s2x == e2x):

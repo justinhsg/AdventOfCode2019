@@ -35,7 +35,8 @@ def main(path):
             elif(opcode == 4):
                 s = cmd1[pc+1]
                 val = cmd1[s] if addressMode%10 == 0 else s
-                print("Output: {}".format(val))
+                if(val != 0):
+                    print(val)
                 pc+=2
             elif(opcode == 5):
                 s1 = cmd1[pc+1]
