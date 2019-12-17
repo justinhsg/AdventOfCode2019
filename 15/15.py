@@ -28,9 +28,9 @@ def main(path):
                 cmd+=[0 for _ in range(relbase+d-len(cmd)+1)]
             return relbase+d
     
-    def run(input):
+    def run(curPC, state, input):
         curPC = 0
-        cmd = commands[:]
+        cmd = state[:]
         output = []
         relbase = 0
         while(True):
@@ -68,7 +68,7 @@ def main(path):
                 d = cmd[curPC+1]            
                 ed = getDes(cmd, addressMode%10, d, relbase)    
                 if(len(input)==0):
-                    return output
+                    return (False, curPC, cmd, output)
                 else:
                     cmd[ed] = input.popleft()
                 curPC += 2
@@ -137,13 +137,14 @@ def main(path):
                 curPC += 2
             elif(opcode == 99):
                 break   
-        return output
-    
-    output = run(deque([]))
-    
+        return (True, curPC, cmd, output)
     
     mvtQueue = deque([[]])
     posQueue = deque([(0,0)])
+    cmdQueue = deque([commands])
+    pcQueue = deque([0])
+    
+    
     visited = set()
     
     visited = dict()
@@ -160,6 +161,8 @@ def main(path):
     while(len(mvtQueue)!=0):
         input = mvtQueue.popleft()
         curPos = posQueue.popleft()
+        curCmd = cmdQueue.popleft()
+        curPC = pcQueue.popleft()
         for i in range(1,5,1):
             newPos = pair.tuple_add(curPos, deltas[i-1])
             if(newPos not in visited):
@@ -167,27 +170,28 @@ def main(path):
                 maxx=max(maxx, newPos[0])
                 miny=min(miny, newPos[1])
                 maxy=max(maxy, newPos[1])
-                newInput = input+[i]
-                last = run(deque(input + [i]))[-1]
+                newInput = deque([i])
+                terminate, newPC, newCmd, newOutput = run(curPC, curCmd, newInput)
+                last = newOutput[-1]
                 visited[newPos]=last
                 if(last == 2):
-                    print(len(newInput))
                     oxyLoc = newPos
                 if(last != 0):
                     mvtQueue.append(newInput)
                     posQueue.append(newPos)
+                    cmdQueue.append(newCmd)
+                    pcQueue.append(newPC)
                     
-    print("Traversal complete")
     
     blocks = ["#",".","O"]
-        
     totalTime = 0
     bQueue = deque([(oxyLoc, 0)])
     deltas = [(0,1), (0, -1), (1, 0), (-1, 0)]
     while(len(bQueue) != 0):
         (pos, time) = bQueue.popleft()
         totalTime = max(time, totalTime)
-        
+        if(pos == (0, 0)):
+            print(time)
         
         for i in range(4):
             newPos = pair.tuple_add(pos, deltas[i])
