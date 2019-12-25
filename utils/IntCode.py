@@ -28,6 +28,7 @@ def run(input, commands, pc, base):
             return relbase+d
     
     while(True):
+        
         instruction = cmd[curPC]
         if(instruction == 0):
             break
@@ -46,7 +47,7 @@ def run(input, commands, pc, base):
             des = getDes(cmd, (addressMode//100)%10, d, relbase)
 
             cmd[des] = src1+src2
-            
+
             curPC += 4
         elif(opcode == 2):
             #MULT
@@ -59,7 +60,7 @@ def run(input, commands, pc, base):
             des = getDes(cmd, (addressMode//100)%10, d, relbase)
             
             cmd[des] = src1*src2
-            
+
             curPC += 4
         elif(opcode == 3):
             #INPUT
@@ -67,9 +68,10 @@ def run(input, commands, pc, base):
             des = getDes(cmd, addressMode%10, d, relbase)   
             
             if(len(input)==0):
-                return(1, output, cmd, curPC, base)
+                return(1, output, cmd, curPC, relbase)
             else:
                 cmd[des] = input.popleft()
+
                 
             curPC += 2
         elif(opcode == 4):
@@ -95,6 +97,7 @@ def run(input, commands, pc, base):
                 curPC += 3
         elif(opcode == 6):
             #Jump if False
+            
             s1 = cmd[curPC+1]
             s2 = cmd[curPC+2]
             
@@ -136,9 +139,8 @@ def run(input, commands, pc, base):
             s = cmd[curPC+1]
             
             src = getSrc(cmd, addressMode%10, s, relbase)
-            
             relbase += src
             
             curPC += 2
         elif(opcode == 99):
-            return(0, output, cmd, curPC, base) 
+            return(0, output, cmd, curPC, relbase) 
